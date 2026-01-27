@@ -16,6 +16,10 @@ internal class Program
 
     static List<int> numbers = Enumerable.Range(1, 90).ToList();
 
+    static bool gameState = true;
+
+    static Random rand = new Random();
+
     static string[,] Extract2DArray(string[,,] cards, int cardIndex)
     {
         int rows = cards.GetLength(1);
@@ -57,7 +61,6 @@ internal class Program
 
     static int RandomNumber()
     {
-        Random rand = new Random();
         int index = rand.Next(numbers.Count);
         int number = numbers[index];
         numbers.RemoveAt(index);
@@ -78,6 +81,29 @@ internal class Program
         }
     }
 
+    static bool WinState(string[,] card)
+    {
+        for (int row = 0; row < card.GetLength(0); row++)
+        {
+            bool rowComplete = true;
+
+            for (int col = 0; col < card.GetLength(1); col++)
+            {
+                if (!string.IsNullOrWhiteSpace(card[row, col]) &&
+                    card[row, col] != "X")
+                {
+                    rowComplete = false;
+                    break;
+                }
+            }
+
+            if (rowComplete)
+                return true;
+        }
+
+        return false;
+    }
+
     static void Turn()
     {
         int randomNumber = RandomNumber();
@@ -91,19 +117,28 @@ internal class Program
         Console.WriteLine("Your card");
         PrintCard(playerCard);
 
-        Console.WriteLine("Number: ");
-        Console.Write(randomNumber);
+        Console.WriteLine($"Number: {randomNumber}");
 
+        bool computerWon = WinState(computerCard);
+        bool playerWon = WinState(playerCard);
 
-        Console.WriteLine();
-        foreach (var num in numbers) { Console.Write(num + " "); }
-        
+        if (computerWon || playerWon)
+        {
+            if (computerWon)
+            {
+                Console.WriteLine("Computer is the winner!");
+            }
+            if (playerWon)
+            {
+                Console.WriteLine("You are the winner!");
+            }
+            gameState = false;
+        }
     }
 
     static void Main(string[] args)
     {
-        bool gameState = true;
-
+        
         while (gameState)
         {
             Turn();
@@ -113,6 +148,7 @@ internal class Program
             {
                 gameState = false;
             }
+            Console.Clear();
         }
     }
 }
