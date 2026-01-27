@@ -8,6 +8,7 @@ internal class Program
         {{"6", " ", "28", " ", "47", " ", "63", " ", "89"},
         {" ", " ", "20", "34", " ", "53", " ", "70", "86"},
         {" ", "11", " ", "32", "45", "51", " ", "77", " "}},
+
         {{"2", " ", " ", " ", "43", "59", "60", "73", ""},
         {" ", "17", "21", "38", "46", " ", " ", " ", "81"},
         {"9", "12", "24", " ", " ", " ", "65", " ", "87"}}
@@ -54,10 +55,64 @@ internal class Program
         Console.WriteLine(" -------------------------------------------- ");
     }
 
-    static void Main(string[] args)
+    static int RandomNumber()
     {
+        Random rand = new Random();
+        int index = rand.Next(numbers.Count);
+        int number = numbers[index];
+        numbers.RemoveAt(index);
+        return number;
+    }
+
+    static void MarkNumber(string[,] card, int number) { 
+        string numberString = number.ToString();
+        for(int row = 0; row < card.GetLength(0); row++)
+        {
+            for(int col = 0; col < card.GetLength(1); col++)
+            {
+                if(card[row, col] == numberString)
+                {
+                    card[row, col] = "X";
+                }
+            }
+        }
+    }
+
+    static void Turn()
+    {
+        int randomNumber = RandomNumber();
+
+        MarkNumber(computerCard, randomNumber);
+        MarkNumber(playerCard, randomNumber);
+
+        Console.WriteLine("Computer's card");
+        PrintCard(computerCard);
+
+        Console.WriteLine("Your card");
         PrintCard(playerCard);
 
-        foreach (var num in numbers) { Console.WriteLine(num); }
+        Console.WriteLine("Number: ");
+        Console.Write(randomNumber);
+
+
+        Console.WriteLine();
+        foreach (var num in numbers) { Console.Write(num + " "); }
+        
+    }
+
+    static void Main(string[] args)
+    {
+        bool gameState = true;
+
+        while (gameState)
+        {
+            Turn();
+            Console.WriteLine("Press Enter to continue, or type 'exit' to quit:");
+            string input = Console.ReadLine();
+            if (input != null && input.ToLower() == "exit")
+            {
+                gameState = false;
+            }
+        }
     }
 }
