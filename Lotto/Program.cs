@@ -50,11 +50,11 @@ internal class Program
                 Console.Write("|");
                 Console.Write(card[row, col].PadLeft(3));
                 Console.Write(" ");
-                
+
             }
             Console.Write("|");
             Console.WriteLine();
-            
+
         }
         Console.WriteLine(" -------------------------------------------- ");
     }
@@ -67,58 +67,78 @@ internal class Program
         return number;
     }
 
-    static string[,] RandomCard() { 
-        string[,] card = new string[3,9];
+    static int[] RandomSpacesPositionsForCard()
+    {
+        int[] positions = new int[] { 0, 0, 0, 0, 1, 1, 1, 1, 1 };
+
+        rand.Shuffle(positions);
+
+        return positions;
+
+    }
+
+
+    static string[,] RandomCard()
+    {
+        string[,] card = new string[3, 9];
         int cols = card.GetLength(1);
         int rows = card.GetLength(0);
 
         for (int row = 0; row < rows; row++)
         {
+            int[] spaces = RandomSpacesPositionsForCard();
             for (int col = 0; col < cols; col++)
             {
-                switch (col)
+                
+                if (spaces[col] == 1)
                 {
-                    case 0:
-                        card[row, col] = rand.Next(1, 9).ToString();
-                        break;
-                    case 1:
-                        card[row, col] = rand.Next(10, 19).ToString();
-                        break;
-                    case 2:
-                        card[row, col] = rand.Next(20, 29).ToString();
-                        break;
-                    case 3:
-                        card[row, col] = rand.Next(30, 39).ToString();
-                        break;
-                    case 4:
-                        card[row, col] = rand.Next(40, 49).ToString();
-                        break;
-                    case 5:
-                        card[row, col] = rand.Next(50, 59).ToString();
-                        break;
-                    case 6:
-                        card[row, col] = rand.Next(60, 69).ToString();
-                        break;
-                    case 7:
-                        card[row, col] = rand.Next(70, 79).ToString();
-                        break;
-                    case 8:
-                        card[row, col] = rand.Next(80, 90).ToString();
-                        break;
+                    switch (col)
+                    {
+                        case 0:
+                            card[row, col] = rand.Next(1, 9).ToString();
+                            break;
+                        case 1:
+                            card[row, col] = rand.Next(10, 19).ToString();
+                            break;
+                        case 2:
+                            card[row, col] = rand.Next(20, 29).ToString();
+                            break;
+                        case 3:
+                            card[row, col] = rand.Next(30, 39).ToString();
+                            break;
+                        case 4:
+                            card[row, col] = rand.Next(40, 49).ToString();
+                            break;
+                        case 5:
+                            card[row, col] = rand.Next(50, 59).ToString();
+                            break;
+                        case 6:
+                            card[row, col] = rand.Next(60, 69).ToString();
+                            break;
+                        case 7:
+                            card[row, col] = rand.Next(70, 79).ToString();
+                            break;
+                        case 8:
+                            card[row, col] = rand.Next(80, 90).ToString();
+                            break;
+                    }
+                }
+                else
+                {
+                    card[row, col] = " ";
                 }
             }
         }
-
         return card;
     }
-
-    static void MarkNumber(string[,] card, int number) { 
+    static void MarkNumber(string[,] card, int number)
+    {
         string numberString = number.ToString();
-        for(int row = 0; row < card.GetLength(0); row++)
+        for (int row = 0; row < card.GetLength(0); row++)
         {
-            for(int col = 0; col < card.GetLength(1); col++)
+            for (int col = 0; col < card.GetLength(1); col++)
             {
-                if(card[row, col] == numberString)
+                if (card[row, col] == numberString)
                 {
                     card[row, col] = "X";
                 }
@@ -185,6 +205,8 @@ internal class Program
     static void Main(string[] args)
     {
         PrintCard(RandomCard());
+
+      
 
         while (gameState)
         {
