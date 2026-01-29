@@ -67,6 +67,51 @@ internal class Program
         return number;
     }
 
+    static string[,] RandomCard() { 
+        string[,] card = new string[3,9];
+        int cols = card.GetLength(1);
+        int rows = card.GetLength(0);
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                switch (col)
+                {
+                    case 0:
+                        card[row, col] = rand.Next(1, 9).ToString();
+                        break;
+                    case 1:
+                        card[row, col] = rand.Next(10, 19).ToString();
+                        break;
+                    case 2:
+                        card[row, col] = rand.Next(20, 29).ToString();
+                        break;
+                    case 3:
+                        card[row, col] = rand.Next(30, 39).ToString();
+                        break;
+                    case 4:
+                        card[row, col] = rand.Next(40, 49).ToString();
+                        break;
+                    case 5:
+                        card[row, col] = rand.Next(50, 59).ToString();
+                        break;
+                    case 6:
+                        card[row, col] = rand.Next(60, 69).ToString();
+                        break;
+                    case 7:
+                        card[row, col] = rand.Next(70, 79).ToString();
+                        break;
+                    case 8:
+                        card[row, col] = rand.Next(80, 90).ToString();
+                        break;
+                }
+            }
+        }
+
+        return card;
+    }
+
     static void MarkNumber(string[,] card, int number) { 
         string numberString = number.ToString();
         for(int row = 0; row < card.GetLength(0); row++)
@@ -122,6 +167,7 @@ internal class Program
         bool computerWon = WinState(computerCard);
         bool playerWon = WinState(playerCard);
 
+
         if (computerWon || playerWon)
         {
             if (computerWon)
@@ -138,7 +184,8 @@ internal class Program
 
     static void Main(string[] args)
     {
-        
+        PrintCard(RandomCard());
+
         while (gameState)
         {
             Turn();
