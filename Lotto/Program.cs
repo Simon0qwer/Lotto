@@ -4,41 +4,14 @@ namespace Lotto;
 
 internal class Program
 {
-    static readonly string[,,] cards = {
-        {{"6", " ", "28", " ", "47", " ", "63", " ", "89"},
-        {" ", " ", "20", "34", " ", "53", " ", "70", "86"},
-        {" ", "11", " ", "32", "45", "51", " ", "77", " "}},
-
-        {{"2", " ", " ", " ", "43", "59", "60", "73", ""},
-        {" ", "17", "21", "38", "46", " ", " ", " ", "81"},
-        {"9", "12", "24", " ", " ", " ", "65", " ", "87"}}
-    };
-
     static List<int> numbers = Enumerable.Range(1, 90).ToList();
 
     static bool gameState = true;
 
     static Random rand = new Random();
 
-    static string[,] Extract2DArray(string[,,] cards, int cardIndex)
-    {
-        int rows = cards.GetLength(1);
-        int cols = cards.GetLength(2);
-        var slice = new string[rows, cols];
-
-        for (int row = 0; row < rows; row++)
-        {
-            for (int col = 0; col < cols; col++)
-            {
-                slice[row, col] = cards[cardIndex, row, col];
-            }
-        }
-
-        return slice;
-    }
-
-    static readonly string[,] playerCard = Extract2DArray(cards, 0);
-    static readonly string[,] computerCard = Extract2DArray(cards, 1);
+    static readonly string[,] playerCard = RandomCard();
+    static readonly string[,] computerCard = RandomCard();
 
     static void PrintCard(string[,] card)
     {
@@ -69,14 +42,13 @@ internal class Program
 
     static int[] RandomSpacesPositionsForCard()
     {
-        int[] positions = new int[] { 0, 0, 0, 0, 1, 1, 1, 1, 1 };
+        int[] positions = { 0, 0, 0, 0, 1, 1, 1, 1, 1 };
 
         rand.Shuffle(positions);
 
         return positions;
 
     }
-
 
     static string[,] RandomCard()
     {
@@ -204,10 +176,6 @@ internal class Program
 
     static void Main(string[] args)
     {
-        PrintCard(RandomCard());
-
-      
-
         while (gameState)
         {
             Turn();
